@@ -7,6 +7,7 @@ class pastPapersPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Past Papers Page"),
+
       ),
     );
   }
