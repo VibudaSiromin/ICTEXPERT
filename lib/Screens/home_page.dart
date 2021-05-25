@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ict_expert/Screens/model_papers_page.dart';
-import 'package:ict_expert/Screens/notes_page.dart';
 import 'package:ict_expert/Screens/past_papers_page.dart';
 import 'package:ict_expert/Screens/teachers_guide_page.dart';
+import 'package:ict_expert/Screens/notes_page.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/acard.png",width:width*0.33,),
+                                Image.asset("images/acard.png",width:width*0.36,),
 
 
                                 Container(
@@ -191,11 +191,11 @@ class _HomePageState extends State<HomePage> {
                                 Image.asset("images/dcard.png",height: width*0.3,),
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                                  child: Text("Teachers Guide",
+                                  child: Text("Teachers' Guide",
                                     style: GoogleFonts.raleway(
                                       textStyle: TextStyle(color: Colors.white,
                                           letterSpacing: .5,
-                                          fontSize: width*0.058,
+                                          fontSize: width*0.056,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -214,15 +214,22 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: height*0.01,),
+                Divider(
+                  thickness: 5,
+                  indent: 20,
+                  endIndent: 20,
+                  color: Color.fromARGB(100, 98, 80, 61),
+                ),
 
 
                 Container(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         Image.asset('images/f.png',width: width*0.09,),
                         Image.asset('images/i.png',width: width*0.11,),
                         Image.asset('images/t.png',width: width*0.09,),
