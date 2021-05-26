@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1096339682439",
+    "project_id": "ictexpert-b279a",
+    "storage_bucket": "ictexpert-b279a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096339682439:android:d79f9299f4c144117a3422",
+        "android_client_info": {
+          "package_name": "com.example.ictexpert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096339682439-s6ot9hlho95f3e9kh9tif0cvaj9qr84s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtoLYX0gPG5NceoXpPn9SWpfPbLghdHBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1096339682439-s6ot9hlho95f3e9kh9tif0cvaj9qr84s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
