@@ -1,5 +1,3 @@
-
-
 import 'dart:typed_data';
 import 'package:ict_expert/globles.dart';
 
@@ -7,6 +5,7 @@ import 'package:ict_expert/DataHolder.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 class teachersGuidePage extends StatefulWidget {
   @override
@@ -31,10 +30,8 @@ class _teachersGuidePageState extends State<teachersGuidePage> {
             child: InteractiveViewer(
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 20.0),
-
                   child: ListView.builder(
-
-                      itemCount:  getIndex(),
+                      itemCount: getIndex(),
                       itemBuilder: (context, index) {
                         return ImageGridItem(index + 1); //image return
                       })),
@@ -45,13 +42,13 @@ class _teachersGuidePageState extends State<teachersGuidePage> {
     );
   }
 
-   getIndex() {
-    if(isEnglish){
+  getIndex() {
+    if (isEnglish) {
       return 208;
-    }else{
+    } else {
       return 259;
     }
-   }
+  }
 }
 
 class ImageGridItem extends StatefulWidget {
@@ -66,36 +63,33 @@ class ImageGridItem extends StatefulWidget {
 }
 
 class _ImageGridItemState extends State<ImageGridItem> {
-  late Uint8List imageFile;
-
-  Reference photosReference = FirebaseStorage.instance.ref().child(getNameChild1());
+   Uint8List ? imageFile;
 
 
+  Reference photosReference =
+      FirebaseStorage.instance.ref().child(getNameChild1());
 
-
-  getImage() {
+  Future getImage() async {
     if (!imageData.containsKey(widget.index)) {
-
-
-      photosReference
+      await photosReference
           .child(getNameChild2())
           .getData(2 * 1024 * 1024)
           .then((data) {
         this.setState(() {
           imageFile = data!;
+
         });
-        imageData.putIfAbsent(widget.index,() {
+        imageData.putIfAbsent(widget.index, () {
           requestedIndexes.add(widget.index);
-         // StoreFutureImages(widget.index);
+          // StoreFutureImages(widget.index);
 
-          return imageFile;
-
+          return imageFile!;
         });
       }).catchError((error) {
         print(error);
       });
     } else {
-      imageFile=imageData[widget.index]!;
+      imageFile = imageData[widget.index]!;
     }
   }
 
@@ -103,10 +97,7 @@ class _ImageGridItemState extends State<ImageGridItem> {
   void initState() {
     super.initState();
     if (!imageData.containsKey(widget.index)) {
-
       getImage();
-
-
     } else {
       this.setState(() {
         imageFile = imageData[widget.index]!;
@@ -115,14 +106,19 @@ class _ImageGridItemState extends State<ImageGridItem> {
   }
 
   @override
-  Widget build(BuildContext context)  {
-    if (imageFile.isEmpty) {
-      CircularProgressIndicator();
-      return Text("Empty");
+  Widget build(BuildContext context) {
+    if (imageFile==null) {
+     return
+        JumpingDotsProgressIndicator(
+          fontSize: 100.0,
+        );
+
+
+
 
     } else {
       return Image.memory(
-        imageFile,
+        imageFile!,
         fit: BoxFit.cover,
       );
     }
@@ -156,79 +152,19 @@ class _ImageGridItemState extends State<ImageGridItem> {
   // }
 
   static getNameChild1() {
-    if(isEnglish){
+    if (isEnglish) {
       return "TeachersGuide";
-    }else{
+    } else {
       return "TeachersGuideSinhala";
     }
   }
 
   String getNameChild2() {
     String Final_Index = CreateFinalIndex(widget.index);
-    if(isEnglish){
+    if (isEnglish) {
       return "eGr12TG ICT-$Final_Index.jpg";
-    }else{
+    } else {
       return "sGr12TG ICT-$Final_Index.jpg";
     }
   }
 }
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:ict_expert/globles.dart';
-//
-// class teachersGuidePage extends StatefulWidget {
-//
-//   @override
-//   _teachersGuidePageState createState() => _teachersGuidePageState();
-// }
-//
-// class _teachersGuidePageState extends State<teachersGuidePage> {
-//   String imageUrl="";
-//   int index=1;
-//
-//   String getNameChild2() {
-//     String Final_Index = CreateFinalIndex(index);
-//     if(isEnglish){
-//       return "eGr12TG ICT-$Final_Index.jpg";
-//     }else{
-//       return "sGr12TG ICT-$Final_Index.jpg";
-//     }
-//   }
-//     static getNameChild1() {
-//     if(isEnglish){
-//       return "TeachersGuide/";
-//     }else{
-//       return "TeachersGuideSinhala/";
-//     }
-//   }
-//
-//   @override
-//   void initState() {
-//     Reference photosReference = FirebaseStorage.instance.ref().child(getNameChild1());
-//     photosReference.child(getNameChild2()).getDownloadURL().then((value){
-//       setState(() {
-//         imageUrl=value;
-//
-//       });
-//     });
-//     super.initState();
-//   }
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: ListView.builder(itemCount: 200, itemBuilder: (context, index){
-//         return imageUrl!=""? Image.network(imageUrl): LinearProgressIndicator();
-//       }),
-//     );
-//   }
-//
-//   static String CreateFinalIndex(int index) {
-//     int index_length = index.toString().length;
-//     String zero_number = "0" * ((3 - index_length));
-//     String Final_Index = (zero_number + index.toString());
-//     return Final_Index;
-//   }
-// }
