@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ict_expert/Screens/model_papers_page.dart';
@@ -5,8 +6,11 @@ import 'package:ict_expert/Screens/notes_page.dart';
 import 'package:ict_expert/Screens/past_papers_page.dart';
 import 'package:ict_expert/Screens/teachers_guide_page.dart';
 
-class HomePage extends StatefulWidget {
+import 'package:toggle_switch/toggle_switch.dart';
+import 'package:ict_expert/globles.dart';
+import 'package:ict_expert/DataHolder.dart';
 
+class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -14,29 +18,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxHeight > 768) {
-            if (constraints.maxWidth > 600) {
+          if (constraints.maxHeight > 570 && constraints.maxWidth > 358) {
+            if (constraints.maxWidth > 760) {
               return _buildWideContainers();
             } else {
               return _buildNormalContainer();
             }
-          }else{
+          } else {
             return _buildSmallPhoneContainer();
           }
         },
       ),
-
     );
   }
 
   Widget _buildWideContainers() {
-    final width=MediaQuery.of(context).size.width;
-    final height=MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -51,43 +52,80 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(left:15.0),
+                margin: const EdgeInsets.only(left: 15.0),
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: CircleAvatar(
-                          backgroundImage: AssetImage("images/p.png",)),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: CircleAvatar(
+                              backgroundImage: AssetImage(
+                            "images/p.png",
+                          )),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(155, 0, 0, 10),
+                          child: ToggleSwitch(
+                            minWidth: 70.0,
+                            cornerRadius: 10.0,
+                            activeBgColor: Color.fromARGB(255, 98, 80, 61),
+                            activeFgColor: Colors.white,
+                            inactiveBgColor: Colors.grey,
+                            inactiveFgColor: Colors.white,
+                            labels: ['English', 'Sinhala'],
+                            onToggle: (index) {
+                              resetDataHolder();
+
+                              if (index == 0) {
+                                isEnglish = true;
+                                print("Switch to English");
+                              } else {
+                                isEnglish = false;
+                                print("Switch to Sinhala");
+                              }
+                            },
+                          ),
+                        )
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6.0),
-                      child: Text("Hi !",
+                      child: Text(
+                        "Hi !",
                         style: GoogleFonts.roboto(
-                          textStyle: TextStyle(color: Colors.white,
+                          textStyle: TextStyle(
+                              color: Colors.white,
                               letterSpacing: .5,
-                              fontSize: width*0.08,
+                              fontSize: width * 0.08,
                               fontWeight: FontWeight.w900),
-                        ),),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6.0),
-                      child: Text("Welcome to",
+                      child: Text(
+                        "Welcome to",
                         style: GoogleFonts.robotoSlab(
-                          textStyle: TextStyle(color: Color.fromARGB(255, 98, 80, 61),
+                          textStyle: TextStyle(
+                              color: Color.fromARGB(255, 98, 80, 61),
                               letterSpacing: .5,
-                              fontSize: width*0.045,
+                              fontSize: width * 0.045,
                               fontWeight: FontWeight.bold),
-                        ),),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text("ICT\nEXPERT",
+                      child: Text(
+                        "ICT\nEXPERT",
                         style: GoogleFonts.robotoMono(
-                          textStyle: TextStyle(color: Colors.black,
+                          textStyle: TextStyle(
+                              color: Colors.black,
                               letterSpacing: .5,
-                              fontSize: width*0.1,
+                              fontSize: width * 0.1,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -98,51 +136,58 @@ class _HomePageState extends State<HomePage> {
                         textStyle: TextStyle(
                             color: Color.fromARGB(255, 98, 80, 61),
                             letterSpacing: .5,
-                            fontSize: width*0.045,
+                            fontSize: width * 0.045,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: height*0.13,),
-
+              SizedBox(
+                height: height * 0.13,
+              ),
               Container(
-
                 child: Expanded(
                   child: GridView.count(
                     primary: false,
                     physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.all(5.0),
-                    crossAxisCount:4,
+                    crossAxisCount: 4,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 8.0,
                     children: [
-
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                           child: InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>notesPage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => notesPage()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/acard.png",width:width*0.13,),
-
-
+                                Image.asset(
+                                  "images/acard.png",
+                                  width: width * 0.13,
+                                ),
                                 Container(
-                                  padding: EdgeInsets.fromLTRB(0, 8,0 , 0),
-                                  child: Text("Notes",
-
+                                  padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                  child: Text(
+                                    "Notes",
                                     style: GoogleFonts.raleway(
-                                      textStyle: TextStyle(color: Colors.white,
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
                                           letterSpacing: .5,
-                                          fontSize: width*0.03,
+                                          fontSize: width * 0.03,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -151,29 +196,38 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-
                       ),
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                           child: InkWell(
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => pastPapersPage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => pastPapersPage()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/bcard.png",width: width*0.1,),
-                                Text("GCE A/L\n Past Papers"
-                                  ,textAlign: TextAlign.center,
+                                Image.asset(
+                                  "images/bcard.png",
+                                  width: width * 0.1,
+                                ),
+                                Text(
+                                  "GCE A/L\n Past Papers",
+                                  textAlign: TextAlign.center,
                                   style: GoogleFonts.raleway(
-                                    textStyle: TextStyle(color: Colors.white,
+                                    textStyle: TextStyle(
+                                        color: Colors.white,
                                         letterSpacing: .5,
-                                        fontSize: width*0.029,
+                                        fontSize: width * 0.029,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -184,27 +238,37 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                           child: InkWell(
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => modelPapersPage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => modelPapersPage()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.asset("images/ccard.png",width: width*0.1,),
+                                Image.asset(
+                                  "images/ccard.png",
+                                  width: width * 0.1,
+                                ),
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 9, 0, 0),
-                                  child: Text("Model Papers",
+                                  child: Text(
+                                    "Model Papers",
                                     style: GoogleFonts.raleway(
-                                      textStyle: TextStyle(color: Colors.white,
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
                                           letterSpacing: .5,
-                                          fontSize: width*0.029,
+                                          fontSize: width * 0.029,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -216,26 +280,36 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                           child: InkWell(
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => teachersGuidePage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => teachersGuidePage()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/dcard.png",height: width*0.1,),
+                                Image.asset(
+                                  "images/dcard.png",
+                                  height: width * 0.1,
+                                ),
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                  child: Text("Teachers Guide",
+                                  child: Text(
+                                    "Teachers Guide",
                                     style: GoogleFonts.raleway(
-                                      textStyle: TextStyle(color: Colors.white,
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
                                           letterSpacing: .5,
-                                          fontSize: width*0.029,
+                                          fontSize: width * 0.029,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -245,25 +319,31 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       )
-
-
-
-                    ],),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: height*0.01,),
-
-
+              SizedBox(
+                height: height * 0.01,
+              ),
               Container(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-
-                      Image.asset('images/f.png',width: width*0.09,),
-                      Image.asset('images/i.png',width: width*0.11,),
-                      Image.asset('images/t.png',width: width*0.09,),
+                      Image.asset(
+                        'images/f.png',
+                        width: width * 0.09,
+                      ),
+                      Image.asset(
+                        'images/i.png',
+                        width: width * 0.11,
+                      ),
+                      Image.asset(
+                        'images/t.png',
+                        width: width * 0.09,
+                      ),
                     ],
                   ),
                 ),
@@ -274,9 +354,10 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
   Widget _buildNormalContainer() {
-    final width=MediaQuery.of(context).size.width;
-    final height=MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -291,43 +372,80 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(left:15.0),
+                margin: const EdgeInsets.only(left: 15.0),
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: CircleAvatar(
-                          backgroundImage: AssetImage("images/p.png",)),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: CircleAvatar(
+                              backgroundImage: AssetImage(
+                            "images/p.png",
+                          )),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(155, 0, 0, 10),
+                          child: ToggleSwitch(
+                            minWidth: 70.0,
+                            cornerRadius: 10.0,
+                            activeBgColor: Color.fromARGB(255, 98, 80, 61),
+                            activeFgColor: Colors.white,
+                            inactiveBgColor: Colors.grey,
+                            inactiveFgColor: Colors.white,
+                            labels: ['English', 'Sinhala'],
+                            onToggle: (index) {
+                              resetDataHolder();
+
+                              if (index == 0) {
+                                isEnglish = true;
+                                print("Switch to English");
+                              } else {
+                                isEnglish = false;
+                                print("Switch to Sinhala");
+                              }
+                            },
+                          ),
+                        )
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6.0),
-                      child: Text("Hi !",
+                      child: Text(
+                        "Hi !",
                         style: GoogleFonts.roboto(
-                          textStyle: TextStyle(color: Colors.white,
+                          textStyle: TextStyle(
+                              color: Colors.white,
                               letterSpacing: .5,
-                              fontSize: width*0.08,
+                              fontSize: width * 0.08,
                               fontWeight: FontWeight.w900),
-                        ),),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6.0),
-                      child: Text("Welcome to",
+                      child: Text(
+                        "Welcome to",
                         style: GoogleFonts.robotoSlab(
-                          textStyle: TextStyle(color: Color.fromARGB(255, 98, 80, 61),
+                          textStyle: TextStyle(
+                              color: Color.fromARGB(255, 98, 80, 61),
                               letterSpacing: .5,
-                              fontSize: width*0.045,
+                              fontSize: width * 0.045,
                               fontWeight: FontWeight.bold),
-                        ),),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 5.0),
-                      child: Text("ICT\nEXPERT",
+                      child: Text(
+                        "ICT\nEXPERT",
                         style: GoogleFonts.robotoMono(
-                          textStyle: TextStyle(color: Colors.black,
+                          textStyle: TextStyle(
+                              color: Colors.black,
                               letterSpacing: .5,
-                              fontSize: width*0.1,
+                              fontSize: width * 0.1,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -338,50 +456,55 @@ class _HomePageState extends State<HomePage> {
                         textStyle: TextStyle(
                             color: Color.fromARGB(255, 98, 80, 61),
                             letterSpacing: .5,
-                            fontSize: width*0.045,
+                            fontSize: width * 0.045,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: height*0.05,),
-
+              SizedBox(
+                height: height * 0.05,
+              ),
               Container(
-
                 child: Expanded(
                   child: GridView.count(
                     primary: false,
                     physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.all(5.0),
-                    crossAxisCount:2,
+                    crossAxisCount: 2,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 8.0,
                     children: [
-
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
-
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           child: InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>notesPage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => notesPage()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/acard.png",width:width*0.33,),
-
-
+                                Image.asset(
+                                  "images/acard.png",
+                                  width: width * 0.33,
+                                ),
                                 Container(
-                                  padding: EdgeInsets.fromLTRB(0, 8,0 , 0),
-                                  child: Text("Notes",
-
+                                  padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                  child: Text(
+                                    "Notes",
                                     style: GoogleFonts.raleway(
-                                      textStyle: TextStyle(color: Colors.white,
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
                                           letterSpacing: .5,
-                                          fontSize: width*0.06,
+                                          fontSize: width * 0.06,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -389,32 +512,39 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ),
-                          color:Color.fromARGB(255, 98, 80, 61) ,
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          color: Color.fromARGB(255, 98, 80, 61),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                         ),
-
                       ),
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
-
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
-
                           child: InkWell(
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => pastPapersPage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => pastPapersPage()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/bcard.png",width: width*0.28,),
-                                Text("GCE A/L\n Past Papers"
-                                  ,textAlign: TextAlign.center,
+                                Image.asset(
+                                  "images/bcard.png",
+                                  width: width * 0.28,
+                                ),
+                                Text(
+                                  "GCE A/L\n Past Papers",
+                                  textAlign: TextAlign.center,
                                   style: GoogleFonts.raleway(
-                                    textStyle: TextStyle(color: Colors.white,
+                                    textStyle: TextStyle(
+                                        color: Colors.white,
                                         letterSpacing: .5,
-                                        fontSize: width*0.058,
+                                        fontSize: width * 0.058,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -422,31 +552,41 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                         ),
                       ),
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                           child: InkWell(
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => modelPapersPage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => modelPapersPage()),
+                              );
                             },
-
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.asset("images/ccard.png",width: width*0.3,),
-                                Text("Model Papers",
+                                Image.asset(
+                                  "images/ccard.png",
+                                  width: width * 0.3,
+                                ),
+                                Text(
+                                  "Model Papers",
                                   style: GoogleFonts.raleway(
-                                    textStyle: TextStyle(color: Colors.white,
+                                    textStyle: TextStyle(
+                                        color: Colors.white,
                                         letterSpacing: .5,
-                                        fontSize: width*0.058,
+                                        fontSize: width * 0.058,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -457,27 +597,36 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                           child: InkWell(
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => teachersGuidePage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => teachersGuidePage()),
+                              );
                             },
-
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/dcard.png",height: width*0.3,),
+                                Image.asset(
+                                  "images/dcard.png",
+                                  height: width * 0.3,
+                                ),
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                                  child: Text("Teachers Guide",
+                                  child: Text(
+                                    "Teachers Guide",
                                     style: GoogleFonts.raleway(
-                                      textStyle: TextStyle(color: Colors.white,
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
                                           letterSpacing: .5,
-                                          fontSize: width*0.058,
+                                          fontSize: width * 0.058,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -487,25 +636,31 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       )
-
-
-
-                    ],),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: height*0.01,),
-
-
+              SizedBox(
+                height: height * 0.01,
+              ),
               Container(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-
-                      Image.asset('images/f.png',width: width*0.09,),
-                      Image.asset('images/i.png',width: width*0.11,),
-                      Image.asset('images/t.png',width: width*0.09,),
+                      Image.asset(
+                        'images/f.png',
+                        width: width * 0.09,
+                      ),
+                      Image.asset(
+                        'images/i.png',
+                        width: width * 0.11,
+                      ),
+                      Image.asset(
+                        'images/t.png',
+                        width: width * 0.09,
+                      ),
                     ],
                   ),
                 ),
@@ -518,7 +673,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildSmallPhoneContainer() {
-    final width=MediaQuery.of(context).size.width;
+    print("Small Layout Loaded ");
+    final width = MediaQuery.of(context).size.width;
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -533,43 +689,81 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(left:15.0),
+                margin: const EdgeInsets.only(left: 15.0),
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 1.0),
-                      child: CircleAvatar(
-                          backgroundImage: AssetImage("images/p.png",)),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 1.0),
+                          child: CircleAvatar(
+                              backgroundImage: AssetImage(
+                            "images/p.png",
+                          )),
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.fromLTRB(120, 0, 0, 0),
+                          child: ToggleSwitch(
+                            minWidth: 70.0,
+                            cornerRadius: 10.0,
+                            activeBgColor: Color.fromARGB(255, 98, 80, 61),
+                            activeFgColor: Colors.white,
+                            inactiveBgColor: Colors.grey,
+                            inactiveFgColor: Colors.white,
+                            labels: ['English', 'Sinhala'],
+                            onToggle: (index) {
+                              resetDataHolder();
+
+                              if (index == 0) {
+                                isEnglish = true;
+                                print("Switch to English");
+                              } else {
+                                isEnglish = false;
+                                print("Switch to Sinhala");
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 1.0),
-                      child: Text("Hi !",
+                      child: Text(
+                        "Hi !",
                         style: GoogleFonts.roboto(
-                          textStyle: TextStyle(color: Colors.white,
+                          textStyle: TextStyle(
+                              color: Colors.white,
                               letterSpacing: .5,
-                              fontSize: width*0.08,
+                              fontSize: width * 0.08,
                               fontWeight: FontWeight.w900),
-                        ),),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 0.0),
-                      child: Text("Welcome to",
+                      child: Text(
+                        "Welcome to",
                         style: GoogleFonts.robotoSlab(
-                          textStyle: TextStyle(color: Color.fromARGB(255, 98, 80, 61),
+                          textStyle: TextStyle(
+                              color: Color.fromARGB(255, 98, 80, 61),
                               letterSpacing: .5,
-                              fontSize: width*0.045,
+                              fontSize: width * 0.045,
                               fontWeight: FontWeight.bold),
-                        ),),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 0.0),
-                      child: Text("ICT\nEXPERT",
+                      child: Text(
+                        "ICT\nEXPERT",
                         style: GoogleFonts.robotoMono(
-                          textStyle: TextStyle(color: Colors.black,
+                          textStyle: TextStyle(
+                              color: Colors.black,
                               letterSpacing: .5,
-                              fontSize: width*0.1,
+                              fontSize: width * 0.1,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -580,52 +774,55 @@ class _HomePageState extends State<HomePage> {
                         textStyle: TextStyle(
                             color: Color.fromARGB(255, 98, 80, 61),
                             letterSpacing: .5,
-                            fontSize: width*0.045,
+                            fontSize: width * 0.045,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
               ),
-
-
               Container(
-
                 child: Expanded(
                   child: GridView.count(
                     primary: false,
                     physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.all(5.0),
-                    crossAxisCount:2,
+                    crossAxisCount: 2,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 6.0,
                     children: [
-
                       Card(
-
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                           child: InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>notesPage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => notesPage()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/acard.png",width:width*0.33,),
-
-
+                                Image.asset(
+                                  "images/acard.png",
+                                  width: width * 0.33,
+                                ),
                                 Container(
-                                  padding: EdgeInsets.fromLTRB(0, 8,0 , 0),
-                                  child: Text("Notes",
-
+                                  padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                  child: Text(
+                                    "Notes",
                                     style: GoogleFonts.raleway(
-                                      textStyle: TextStyle(color: Colors.white,
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
                                           letterSpacing: .5,
-                                          fontSize: width*0.06,
+                                          fontSize: width * 0.06,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -634,29 +831,38 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-
                       ),
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                           child: InkWell(
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => pastPapersPage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => pastPapersPage()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/bcard.png",width: width*0.28,),
-                                Text("GCE A/L\n Past Papers"
-                                  ,textAlign: TextAlign.center,
+                                Image.asset(
+                                  "images/bcard.png",
+                                  width: width * 0.28,
+                                ),
+                                Text(
+                                  "GCE A/L\n Past Papers",
+                                  textAlign: TextAlign.center,
                                   style: GoogleFonts.raleway(
-                                    textStyle: TextStyle(color: Colors.white,
+                                    textStyle: TextStyle(
+                                        color: Colors.white,
                                         letterSpacing: .5,
-                                        fontSize: width*0.058,
+                                        fontSize: width * 0.058,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -667,26 +873,35 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                           child: InkWell(
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => modelPapersPage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => modelPapersPage()),
+                              );
                             },
-
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.asset("images/ccard.png",width: width*0.27,),
-                                Text("Model Papers",
+                                Image.asset(
+                                  "images/ccard.png",
+                                  width: width * 0.27,
+                                ),
+                                Text(
+                                  "Model Papers",
                                   style: GoogleFonts.raleway(
-                                    textStyle: TextStyle(color: Colors.white,
+                                    textStyle: TextStyle(
+                                        color: Colors.white,
                                         letterSpacing: .5,
-                                        fontSize: width*0.057,
+                                        fontSize: width * 0.057,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -697,27 +912,36 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
-                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(21)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
-                          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
                           child: InkWell(
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => teachersGuidePage()),);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => teachersGuidePage()),
+                              );
                             },
-
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/dcard.png",height: width*0.28,),
+                                Image.asset(
+                                  "images/dcard.png",
+                                  height: width * 0.28,
+                                ),
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                                  child: Text("Teachers Guide",
+                                  child: Text(
+                                    "Teachers Guide",
                                     style: GoogleFonts.raleway(
-                                      textStyle: TextStyle(color: Colors.white,
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
                                           letterSpacing: .5,
-                                          fontSize: width*0.056,
+                                          fontSize: width * 0.056,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -727,25 +951,28 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       )
-
-
-
-                    ],),
+                    ],
+                  ),
                 ),
               ),
-
-
-
               Container(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 6.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-
-                      Image.asset('images/f.png',width: width*0.09,),
-                      Image.asset('images/i.png',width: width*0.11,),
-                      Image.asset('images/t.png',width: width*0.09,),
+                      Image.asset(
+                        'images/f.png',
+                        width: width * 0.09,
+                      ),
+                      Image.asset(
+                        'images/i.png',
+                        width: width * 0.11,
+                      ),
+                      Image.asset(
+                        'images/t.png',
+                        width: width * 0.09,
+                      ),
                     ],
                   ),
                 ),
@@ -755,5 +982,10 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void resetDataHolder() {
+    imageData.clear();
+    requestedIndexes.clear();
   }
 }
