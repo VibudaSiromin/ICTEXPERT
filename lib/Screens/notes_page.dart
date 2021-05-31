@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
+import 'NotesPageView.dart';
 
 class notesPage extends StatefulWidget {
   @override
@@ -44,7 +46,6 @@ class _notesPageState extends State<notesPage> {
 
   Widget _buildWideContainers() {
     final width=MediaQuery.of(context).size.width;
-    final height=MediaQuery.of(context).size.height;
     return Center(
       child:Container(
         width: MediaQuery.of(context).size.width,
@@ -108,6 +109,14 @@ class _notesPageState extends State<notesPage> {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(5, 15, 0, 15),
                       child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NotesPageView(noteName[index])),
+                          );
+                        },
+
 
                           title: Text(
                             noteName[index],
@@ -130,7 +139,6 @@ class _notesPageState extends State<notesPage> {
 
   Widget _buildNormalContainer() {
   final width=MediaQuery.of(context).size.width;
-  final height=MediaQuery.of(context).size.height;
     return Center(
       child:Container(
        width: MediaQuery.of(context).size.width,
@@ -210,4 +218,9 @@ class _notesPageState extends State<notesPage> {
       ) ,
       );
 }
+
+
+
 }
+
+

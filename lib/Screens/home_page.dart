@@ -5,7 +5,6 @@ import 'package:ict_expert/Screens/model_papers_page.dart';
 import 'package:ict_expert/Screens/notes_page.dart';
 import 'package:ict_expert/Screens/past_papers_page.dart';
 import 'package:ict_expert/Screens/teachers_guide_page.dart';
-
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:ict_expert/globles.dart';
 import 'package:ict_expert/DataHolder.dart';
@@ -21,14 +20,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxHeight > 570 && constraints.maxWidth > 358) {
-            if (constraints.maxWidth > 760) {
-              return _buildWideContainers();
+          if (constraints.maxWidth < 760) {
+            if (MediaQuery.of(context).size.aspectRatio > 0.51) {
+              return _buildSmallPhoneContainer();
             } else {
               return _buildNormalContainer();
             }
           } else {
-            return _buildSmallPhoneContainer();
+            return _buildWideContainers();
           }
         },
       ),
@@ -38,6 +37,12 @@ class _HomePageState extends State<HomePage> {
   Widget _buildWideContainers() {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    print("Wide Layout Loaded \n" +
+        MediaQuery.of(context).size.width.toString() +
+        "\n" +
+        MediaQuery.of(context).size.height.toString() +
+        "\n" +
+        MediaQuery.of(context).size.aspectRatio.toString());
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -67,9 +72,11 @@ class _HomePageState extends State<HomePage> {
                           )),
                         ),
                         Container(
-                          padding: const EdgeInsets.fromLTRB(155, 0, 0, 10),
+                          padding: EdgeInsets.fromLTRB(width * 0.592, 0, 0, 10),
                           child: ToggleSwitch(
-                            minWidth: 70.0,
+                            minWidth: width * 0.1562,
+                            minHeight: height * 0.0488,
+                            fontSize: height * 0.022,
                             cornerRadius: 10.0,
                             activeBgColor: Color.fromARGB(255, 98, 80, 61),
                             activeFgColor: Colors.white,
@@ -131,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Text(
-                      "All GCE A/L Knowledge in One Place",
+                      "Join With Us to Sharpen Your Al IT Knowledge",
                       style: GoogleFonts.koHo(
                         textStyle: TextStyle(
                             color: Color.fromARGB(255, 98, 80, 61),
@@ -144,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(
-                height: height * 0.13,
+                height: height * 0.15,
               ),
               Container(
                 child: Expanded(
@@ -159,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(21)),
+                            borderRadius: BorderRadius.circular(20)),
                         child: Material(
                           color: Color.fromARGB(255, 98, 80, 61),
                           shape: RoundedRectangleBorder(
@@ -326,6 +333,11 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: height * 0.01,
               ),
+              Divider(
+                color: Color.fromARGB(255, 98, 80, 61),
+                indent: 50.0,
+                endIndent: 50.0,
+              ),
               Container(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
@@ -334,15 +346,15 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Image.asset(
                         'images/f.png',
-                        width: width * 0.09,
+                        width: width * 0.08,
                       ),
                       Image.asset(
                         'images/i.png',
-                        width: width * 0.11,
+                        width: width * 0.09,
                       ),
                       Image.asset(
                         'images/t.png',
-                        width: width * 0.09,
+                        width: width * 0.08,
                       ),
                     ],
                   ),
@@ -358,6 +370,12 @@ class _HomePageState extends State<HomePage> {
   Widget _buildNormalContainer() {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    print("Normal Layout Loaded \n" +
+        MediaQuery.of(context).size.width.toString() +
+        "\n" +
+        MediaQuery.of(context).size.height.toString() +
+        "\n" +
+        MediaQuery.of(context).size.aspectRatio.toString());
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -387,9 +405,11 @@ class _HomePageState extends State<HomePage> {
                           )),
                         ),
                         Container(
-                          padding: const EdgeInsets.fromLTRB(155, 0, 0, 10),
+                          padding:
+                              EdgeInsets.fromLTRB((width * 0.43), 0, 0, 10),
                           child: ToggleSwitch(
-                            minWidth: 70.0,
+                            minWidth: width * 0.2,
+                            minHeight: height * 0.06,
                             cornerRadius: 10.0,
                             activeBgColor: Color.fromARGB(255, 98, 80, 61),
                             activeFgColor: Colors.white,
@@ -451,12 +471,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Text(
-                      "All GCE A/L Knowledge in One Place",
+                      "Join With Us to Sharpen Your Al IT Knowledge",
                       style: GoogleFonts.koHo(
                         textStyle: TextStyle(
                             color: Color.fromARGB(255, 98, 80, 61),
-                            letterSpacing: .5,
-                            fontSize: width * 0.045,
+                            letterSpacing: .1,
+                            wordSpacing: .2,
+                            fontSize: width * 0.044,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -643,6 +664,11 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: height * 0.01,
               ),
+              Divider(
+                color: Color.fromARGB(255, 98, 80, 61),
+                indent: 50.0,
+                endIndent: 50.0,
+              ),
               Container(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
@@ -673,8 +699,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildSmallPhoneContainer() {
-    print("Small Layout Loaded ");
+    print("Small Layout Loaded \n" +
+        MediaQuery.of(context).size.width.toString() +
+        "\n" +
+        MediaQuery.of(context).size.height.toString() +
+        "\n" +
+        MediaQuery.of(context).size.aspectRatio.toString());
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -697,7 +730,7 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 1.0),
+                          padding: const EdgeInsets.only(bottom: 0.5),
                           child: CircleAvatar(
                               backgroundImage: AssetImage(
                             "images/p.png",
@@ -705,9 +738,10 @@ class _HomePageState extends State<HomePage> {
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.fromLTRB(120, 0, 0, 0),
+                          padding: EdgeInsets.fromLTRB(width * 0.375, 0, 0, 0),
                           child: ToggleSwitch(
-                            minWidth: 70.0,
+                            minWidth: width * 0.2125,
+                            minHeight: height * 0.07,
                             cornerRadius: 10.0,
                             activeBgColor: Color.fromARGB(255, 98, 80, 61),
                             activeFgColor: Colors.white,
@@ -750,7 +784,7 @@ class _HomePageState extends State<HomePage> {
                           textStyle: TextStyle(
                               color: Color.fromARGB(255, 98, 80, 61),
                               letterSpacing: .5,
-                              fontSize: width * 0.045,
+                              fontSize: width * 0.044,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -763,18 +797,19 @@ class _HomePageState extends State<HomePage> {
                           textStyle: TextStyle(
                               color: Colors.black,
                               letterSpacing: .5,
-                              fontSize: width * 0.1,
+                              fontSize: width * 0.09,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
                     Text(
-                      "All GCE A/L Knowledge in One Place",
+                      "Join With Us to Sharpen Your Al IT Knowledge",
                       style: GoogleFonts.koHo(
                         textStyle: TextStyle(
                             color: Color.fromARGB(255, 98, 80, 61),
-                            letterSpacing: .5,
-                            fontSize: width * 0.045,
+                            letterSpacing: .1,
+                            wordSpacing: .2,
+                            fontSize: width * 0.044,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -788,8 +823,8 @@ class _HomePageState extends State<HomePage> {
                     physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.all(5.0),
                     crossAxisCount: 2,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 6.0,
+                    crossAxisSpacing: 11.0,
+                    mainAxisSpacing: 5,
                     children: [
                       Card(
                         color: Color.fromARGB(255, 98, 80, 61),
@@ -955,9 +990,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+              Divider(
+                color: Color.fromARGB(255, 98, 80, 61),
+                indent: 50.0,
+                endIndent: 50.0,
+              ),
               Container(
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 6.0),
+                  padding: const EdgeInsets.only(bottom: 3.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

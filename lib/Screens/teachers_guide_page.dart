@@ -16,6 +16,9 @@ class _teachersGuidePageState extends State<teachersGuidePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(""),
+      ),
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -28,13 +31,28 @@ class _teachersGuidePageState extends State<teachersGuidePage> {
           ),
           child: SafeArea(
             child: InteractiveViewer(
-              child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 20.0),
-                  child: ListView.builder(
-                      itemCount: getIndex(),
-                      itemBuilder: (context, index) {
-                        return ImageGridItem(index + 1); //image return
-                      })),
+              child: AspectRatio(
+                aspectRatio:  MediaQuery.of(context).devicePixelRatio,
+                child: ListView.builder(
+                        itemCount: getIndex(),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1.0),
+                              borderRadius: BorderRadius.all(Radius.circular(4.0))
+                            ),
+
+                            child: SizedBox(
+
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.width*297/210,
+
+
+                                child: ImageGridItem(index + 1)),
+                          ); //image return
+                           }),
+              ),
+
             ),
           ),
         ),
@@ -155,7 +173,7 @@ class _ImageGridItemState extends State<ImageGridItem> {
     if (isEnglish) {
       return "TeachersGuide";
     } else {
-      return "TeachersGuideSinhala";
+      return "TeachersGuideSinhala/";
     }
   }
 
