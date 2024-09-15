@@ -1,30 +1,66 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 
-import 'package:ictexpert/main.dart';
+class NotesView extends StatefulWidget {
 
-void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+  @override
+  _NotesViewState createState() => _NotesViewState();
 }
+
+class _NotesViewState extends State<NotesView> {
+  String pdfUrl="";
+  int index=1;
+
+  @override
+  void initState() {
+    FirebaseStorage.instance.ref("eGr13TG ICT.pdf").getDownloadURL().then((value){
+      setState(() {
+
+        pdfUrl=value;
+      });
+    });
+    super.initState();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body:
+      Center(
+          child: AspectRatio(
+            aspectRatio: 100/180,
+            child: const PDF(
+
+
+            ).cachedFromUrl(
+
+              pdfUrl,
+              placeholder: (double progress) => Center(child: Text('$progress %')),
+              errorWidget: (dynamic error) => Center(child: Text(error.toString())),
+            ),
+          )
+
+      ),
+    );
+  }
+}
+
+
+class LoadingView extends StatelessWidget {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Loading"),
+      ),
+    );
+  }
+}
+
